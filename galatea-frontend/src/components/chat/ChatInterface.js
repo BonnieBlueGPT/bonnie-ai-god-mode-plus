@@ -9,15 +9,22 @@ import {
   SafeAreaView,
   Alert
 } from 'react-native';
+import io from 'socket.io-client';
 import { usePersonality } from '../../context/PersonalityContext';
 import { 
-  calculateTypingDelay, 
+  calculateEOMTypingDelay, 
   calculateReadDelay, 
   generateMessageId,
-  formatLastSeen 
+  formatLastSeen,
+  formatBackendMessage,
+  getEmotionVisualCues
 } from '../../utils/messageUtils';
+import UpsellManager, { SlutModeVisualCue, EmotionParticles } from '../monetization/UpsellManager';
 
-// For Phase 1, we'll create simplified versions of these components inline
+// 🔥 GALATEA ENGINE v24 - BACKEND INTEGRATED CHAT INTERFACE 🔥
+
+const BACKEND_URL = 'https://bonnie-production.onrender.com';
+
 const MessageBubble = ({ message, isUser, showTimestamp, isRead, isDelivered, emotion }) => {
   const { theme, personality } = usePersonality();
 
@@ -28,6 +35,14 @@ const MessageBubble = ({ message, isUser, showTimestamp, isRead, isDelivered, em
       minute: '2-digit',
       hour12: true 
     });
+  };
+
+  const getEmotionStyle = (emotion) => {
+    const visualCues = getEmotionVisualCues(emotion);
+    return {
+      shadowColor: visualCues.color,
+      shadowOpacity: 0.4,
+    };
   };
 
   return (
@@ -42,7 +57,7 @@ const MessageBubble = ({ message, isUser, showTimestamp, isRead, isDelivered, em
         styles.bubble,
         isUser 
           ? [styles.userBubble, { backgroundColor: theme.primary }] 
-          : [styles.aiBubble, { backgroundColor: theme.bubble }]
+          : [styles.aiBubble, { backgroundColor: theme.bubble }, getEmotionStyle(emotion)]
       ]}>
         <Text style={[
           styles.messageText,
@@ -62,11 +77,20 @@ const MessageBubble = ({ message, isUser, showTimestamp, isRead, isDelivered, em
           </Text>
         )}
       </View>
+
+      {/* Emotion particles for AI messages */}
+      {!isUser && emotion && emotion !== 'sweet' && (
+        <EmotionParticles 
+          emotion={emotion} 
+          intensity={message.eomData?.intensity === 'high' ? 1.5 : 1.0}
+          visible={true}
+        />
+      )}
     </View>
   );
 };
 
-const TypingIndicator = ({ visible }) => {
+const TypingIndicator = ({ visible, typingMessage }) => {
   const { theme, personality } = usePersonality();
   
   if (!visible) return null;
@@ -78,7 +102,7 @@ const TypingIndicator = ({ visible }) => {
       </View>
       <View style={[styles.typingBubble, { backgroundColor: theme.bubble }]}>
         <Text style={[styles.typingText, { color: theme.text }]}>
-          {personality.name} is typing...
+          {typingMessage || `${personality.name} is typing...`}
         </Text>
         <Text style={styles.dots}>...</Text>
       </View>
@@ -88,13 +112,17 @@ const TypingIndicator = ({ visible }) => {
 
 const InputArea = ({ onSendMessage, disabled }) => {
   const { theme } = usePersonality();
-  const [message, setMessage] = useState('');
 
-  const handleSend = () => {
-    if (message.trim().length > 0 && !disabled) {
-      onSendMessage(message.trim());
-      setMessage('');
-    }
+  const handleSendPress = () => {
+    Alert.prompt(
+      'Send Message',
+      'Type your message:',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Send', onPress: (text) => text && onSendMessage(text) }
+      ],
+      'plain-text'
+    );
   };
 
   return (
@@ -102,36 +130,18 @@ const InputArea = ({ onSendMessage, disabled }) => {
       <View style={styles.inputWrapper}>
         <Text 
           style={[styles.textInput, { color: theme.text }]}
-          onPress={() => {
-            Alert.prompt(
-              'Send Message',
-              'Type your message:',
-              [
-                { text: 'Cancel', style: 'cancel' },
-                { text: 'Send', onPress: (text) => text && handleSend(text) }
-              ],
-              'plain-text',
-              message
-            );
-          }}
+          onPress={handleSendPress}
         >
-          {message || 'Tap to type message...'}
+          Tap to type message...
         </Text>
       </View>
       
       <TouchableOpacity
-        style={[styles.sendButton, { backgroundColor: theme.primary }]}
-        onPress={() => {
-          Alert.prompt(
-            'Send Message',
-            'Type your message:',
-            [
-              { text: 'Cancel', style: 'cancel' },
-              { text: 'Send', onPress: (text) => text && onSendMessage(text) }
-            ],
-            'plain-text'
-          );
-        }}
+        style={[styles.sendButton, { 
+          backgroundColor: disabled ? theme.secondary : theme.primary,
+          opacity: disabled ? 0.5 : 1
+        }]}
+        onPress={handleSendPress}
         disabled={disabled}
       >
         <Text style={styles.sendButtonText}>💕</Text>
@@ -179,72 +189,158 @@ const PersonalitySelector = ({ visible, onClose }) => {
 };
 
 const ChatInterface = () => {
-  const { personality, theme } = usePersonality();
+  const { personality, theme, activePersonalityId } = usePersonality();
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [typingMessage, setTypingMessage] = useState('');
   const [showPersonalitySelector, setShowPersonalitySelector] = useState(false);
   const [lastSeen, setLastSeen] = useState(new Date().toISOString());
+  const [socket, setSocket] = useState(null);
+  const [connectionStatus, setConnectionStatus] = useState('disconnected');
+  const [currentUpsell, setCurrentUpsell] = useState(null);
+  const [slutModeActive, setSlutModeActive] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const flatListRef = useRef(null);
 
-  // Initial welcome message
+  // 🔥 SOCKET CONNECTION & AUTHENTICATION
   useEffect(() => {
-    const welcomeMessage = {
-      id: generateMessageId(),
-      text: personality.sampleResponses.sweet[0],
-      isUser: false,
-      timestamp: new Date().toISOString(),
-      emotion: 'sweet',
-      isRead: false,
-      isDelivered: true
-    };
+    console.log('🚀 Connecting to Galatea Backend:', BACKEND_URL);
     
-    setMessages([welcomeMessage]);
-    
-    // Simulate "read" after delay
-    setTimeout(() => {
-      setMessages(prev => prev.map(msg => 
-        msg.id === welcomeMessage.id ? { ...msg, isRead: true } : msg
-      ));
-    }, calculateReadDelay());
-    
-  }, [personality]);
+    const newSocket = io(BACKEND_URL, {
+      transports: ['websocket', 'polling'],
+      timeout: 20000,
+    });
 
-  const simulateAIResponse = (userMessage) => {
-    const typingDelay = calculateTypingDelay(userMessage, personality.typingStyle, 'sweet');
-    
-    setIsTyping(true);
-    setLastSeen(new Date().toISOString());
+    newSocket.on('connect', () => {
+      console.log('✅ Connected to Galatea Engine v24');
+      setConnectionStatus('connected');
+      
+      // Authenticate with backend
+      console.log('🔐 Authenticating with personality:', activePersonalityId);
+      newSocket.emit('authenticate', {
+        personality: activePersonalityId,
+        userId: `user_${Date.now()}`, // Generate temp user ID
+        timestamp: Date.now()
+      });
+    });
 
-    setTimeout(() => {
-      setIsTyping(false);
+    newSocket.on('authenticated', (data) => {
+      console.log('✅ Authenticated successfully:', data);
+      setIsAuthenticated(true);
       
-      // Choose random response based on escalation (using sweet for now)
-      const responses = personality.sampleResponses.sweet;
-      const responseText = responses[Math.floor(Math.random() * responses.length)];
-      
-      const aiMessage = {
-        id: generateMessageId(),
-        text: responseText,
-        isUser: false,
-        timestamp: new Date().toISOString(),
-        emotion: 'sweet',
-        isRead: false,
-        isDelivered: true
-      };
+      // Show welcome message if provided
+      if (data.message) {
+        const welcomeMessage = formatBackendMessage({
+          message: data.message,
+          personality: data.personality?.name,
+          timestamp: new Date().toISOString()
+        });
+        setMessages([welcomeMessage]);
+      }
+    });
 
-      setMessages(prev => [...prev, aiMessage]);
+    newSocket.on('disconnect', () => {
+      console.log('❌ Disconnected from backend');
+      setConnectionStatus('disconnected');
+      setIsAuthenticated(false);
+    });
+
+    newSocket.on('connect_error', (error) => {
+      console.error('🔥 Connection error:', error);
+      setConnectionStatus('error');
+    });
+
+    // 🔥 BACKEND MESSAGE HANDLER
+    newSocket.on('message', (backendResponse) => {
+      console.log('📨 Received from backend:', backendResponse);
       
-      // Auto-read after delay
+      const formattedMessage = formatBackendMessage(backendResponse);
+      
+      // Calculate typing delay based on <EOM> tags
+      const typingDelay = calculateEOMTypingDelay(
+        formattedMessage.eomData, 
+        personality.typingStyle
+      );
+
+      // Show custom typing message if provided
+      if (backendResponse.typing_message) {
+        setTypingMessage(backendResponse.typing_message);
+      }
+
+      setIsTyping(true);
+      setLastSeen(new Date().toISOString());
+
+      // Apply realistic typing delay
       setTimeout(() => {
-        setMessages(prev => prev.map(msg => 
-          msg.id === aiMessage.id ? { ...msg, isRead: true } : msg
-        ));
-      }, calculateReadDelay());
-      
-    }, typingDelay);
-  };
+        setIsTyping(false);
+        setTypingMessage('');
+        
+        setMessages(prev => [...prev, formattedMessage]);
+        
+        // Handle SlutMode activation
+        if (formattedMessage.slutMode) {
+          setSlutModeActive(true);
+          setTimeout(() => setSlutModeActive(false), 3000); // Show for 3 seconds
+        }
+        
+        // Handle upsell triggers
+        if (formattedMessage.upsell) {
+          setTimeout(() => {
+            setCurrentUpsell(formattedMessage.upsell);
+          }, 1000); // Show upsell 1 second after message
+        }
+        
+        // Auto-read after delay
+        setTimeout(() => {
+          setMessages(prev => prev.map(msg => 
+            msg.id === formattedMessage.id ? { ...msg, isRead: true } : msg
+          ));
+        }, calculateReadDelay());
+        
+      }, typingDelay);
+    });
 
+    // Handle typing indicators from backend
+    newSocket.on('typing', (data) => {
+      setIsTyping(data.typing);
+      if (data.message) {
+        setTypingMessage(data.message);
+      }
+    });
+
+    // Handle errors
+    newSocket.on('error', (error) => {
+      console.error('🔥 Backend error:', error);
+      Alert.alert('Connection Error', 'Unable to connect to AI. Please try again.');
+    });
+
+    setSocket(newSocket);
+
+    return () => {
+      console.log('🔌 Disconnecting socket');
+      newSocket.disconnect();
+    };
+  }, [activePersonalityId]);
+
+  // Re-authenticate when personality changes
+  useEffect(() => {
+    if (socket && isAuthenticated && activePersonalityId) {
+      console.log('🔄 Switching personality to:', activePersonalityId);
+      socket.emit('authenticate', {
+        personality: activePersonalityId,
+        userId: `user_${Date.now()}`,
+        timestamp: Date.now()
+      });
+    }
+  }, [activePersonalityId, socket, isAuthenticated]);
+
+  // 🔥 SEND MESSAGE TO BACKEND
   const handleSendMessage = (messageText) => {
+    if (!socket || !isAuthenticated) {
+      Alert.alert('Not Connected', 'Please wait for connection to establish.');
+      return;
+    }
+
     const userMessage = {
       id: generateMessageId(),
       text: messageText,
@@ -255,6 +351,20 @@ const ChatInterface = () => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+
+    // Send to backend with personality context
+    console.log('📤 Sending to backend:', {
+      message: messageText,
+      personality: activePersonalityId,
+      timestamp: Date.now()
+    });
+
+    socket.emit('message', {
+      message: messageText,
+      personality: activePersonalityId,
+      timestamp: Date.now(),
+      userId: `user_${Date.now()}`
+    });
 
     // Simulate delivery and read status
     setTimeout(() => {
@@ -268,9 +378,16 @@ const ChatInterface = () => {
         msg.id === userMessage.id ? { ...msg, isRead: true } : msg
       ));
     }, 1500);
+  };
 
-    // Trigger AI response
-    simulateAIResponse(messageText);
+  const handleUpsellPress = (upsellData) => {
+    console.log('💰 Upsell triggered:', upsellData);
+    // TODO: Integrate with Stripe here
+    setCurrentUpsell(null);
+  };
+
+  const handleUpsellDismiss = () => {
+    setCurrentUpsell(null);
   };
 
   const renderMessage = ({ item }) => (
@@ -283,6 +400,14 @@ const ChatInterface = () => {
       emotion={item.emotion}
     />
   );
+
+  const getConnectionStatusColor = () => {
+    switch (connectionStatus) {
+      case 'connected': return '#00FF00';
+      case 'error': return '#FF0000';
+      default: return '#FFA500';
+    }
+  };
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
@@ -300,10 +425,18 @@ const ChatInterface = () => {
           <View style={styles.headerInfo}>
             <Text style={styles.headerName}>{personality.name}</Text>
             <Text style={styles.headerStatus}>
-              {isTyping ? 'typing...' : formatLastSeen(lastSeen)}
+              {isTyping ? (typingMessage || 'typing...') : formatLastSeen(lastSeen)}
             </Text>
           </View>
         </TouchableOpacity>
+
+        {/* Connection status indicator */}
+        <View style={styles.headerRight}>
+          <View style={[styles.connectionDot, { backgroundColor: getConnectionStatusColor() }]} />
+          <Text style={styles.connectionText}>
+            {connectionStatus === 'connected' ? 'Live' : 'Connecting...'}
+          </Text>
+        </View>
       </View>
 
       {/* Messages */}
@@ -318,13 +451,26 @@ const ChatInterface = () => {
       />
 
       {/* Typing indicator */}
-      {isTyping && <TypingIndicator visible={isTyping} />}
+      {isTyping && <TypingIndicator visible={isTyping} typingMessage={typingMessage} />}
+
+      {/* Upsell manager */}
+      {currentUpsell && (
+        <UpsellManager
+          upsellData={currentUpsell}
+          visible={true}
+          onUpsellPress={handleUpsellPress}
+          onDismiss={handleUpsellDismiss}
+        />
+      )}
 
       {/* Input area */}
       <InputArea 
         onSendMessage={handleSendMessage}
-        disabled={isTyping}
+        disabled={isTyping || !isAuthenticated}
       />
+
+      {/* SlutMode visual cue overlay */}
+      <SlutModeVisualCue visible={slutModeActive} intensity={1.0} />
 
       {/* Personality selector modal */}
       <PersonalitySelector
@@ -342,6 +488,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 12,
     elevation: 3,
@@ -372,6 +519,21 @@ const styles = StyleSheet.create({
   },
   headerStatus: {
     fontSize: 13,
+    color: '#FFFFFF',
+    opacity: 0.8,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  connectionDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 6,
+  },
+  connectionText: {
+    fontSize: 12,
     color: '#FFFFFF',
     opacity: 0.8,
   },
@@ -411,6 +573,9 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 20,
     marginHorizontal: 4,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
   },
   userBubble: {
     borderBottomRightRadius: 4,
