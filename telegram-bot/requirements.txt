@@ -1,5 +1,6 @@
 # 🔱 BONNIE AI TELEGRAM BOT DEPENDENCIES 🔱
 # Production-ready versions for Render deployment
+# Supreme Architect approved compatibility matrix
 
 # Telegram Bot Framework
 python-telegram-bot==21.3
@@ -8,14 +9,14 @@ python-telegram-bot==21.3
 aiohttp==3.9.1
 httpx==0.25.2
 
-# Supabase Client
+# Supabase Client (Fixed compatibility)
 supabase==2.3.0
+realtime==1.2.0
 
-# Core Python Libraries
+# Environment Management
 python-dotenv==1.0.0
-asyncio-mqtt==0.13.0
 
-# Data Processing
+# Data Processing (Compatible versions)
 pydantic==2.5.0
 pydantic-core==2.14.0
 
@@ -23,8 +24,11 @@ pydantic-core==2.14.0
 python-dateutil==2.8.2
 typing-extensions==4.8.0
 
-# Security (if needed)
+# Security
 cryptography==41.0.8
 
 # Optional: For webhook SSL
 gunicorn==21.2.0
+
+# Optional: Enhanced logging
+colorama==0.4.6

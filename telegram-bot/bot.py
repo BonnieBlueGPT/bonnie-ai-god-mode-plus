@@ -815,23 +815,41 @@ Ready to have an amazing conversation? 🚀"""
         # Keep the bot running
         await self.application.updater.idle()
     
-    async def start_webhook(self, webhook_url: str, port: int = 8443):
-        """Start the bot in webhook mode"""
-        logger.info(f"🌐 Starting Bonnie in webhook mode on {webhook_url}")
-        await self.application.initialize()
-        await self.application.start()
-        await self.application.bot.set_webhook(url=webhook_url)
-        
-        # Start webhook server
-        await self.application.updater.start_webhook(
-            listen="0.0.0.0",
-            port=port,
-            url_path="",
-            webhook_url=webhook_url
-        )
-        
-        logger.info("✅ Bonnie webhook is LIVE! 🔱")
-        await self.application.updater.idle()
+    async def start_webhook(self, webhook_url: str, port: int = 10000):
+        """Start the bot in webhook mode for Render deployment"""
+        try:
+            logger.info(f"🌐 Starting Bonnie in webhook mode on {webhook_url}")
+            await self.application.initialize()
+            await self.application.start()
+            
+            # Set webhook with Telegram
+            webhook_result = await self.application.bot.set_webhook(
+                url=webhook_url,
+                allowed_updates=['message', 'callback_query'],
+                drop_pending_updates=True
+            )
+            
+            if webhook_result:
+                logger.info(f"✅ Webhook set successfully: {webhook_url}")
+            else:
+                logger.error("❌ Failed to set webhook with Telegram")
+                
+            # Start webhook server
+            await self.application.updater.start_webhook(
+                listen="0.0.0.0",
+                port=port,
+                url_path="",
+                webhook_url=webhook_url
+            )
+            
+            logger.info("✅ Bonnie webhook is LIVE! 🔱")
+            await self.application.updater.idle()
+            
+        except Exception as e:
+            logger.error(f"💥 Webhook startup failed: {e}")
+            # Fallback to polling if webhook fails
+            logger.info("🔄 Falling back to polling mode...")
+            await self.start_polling()
     
     async def shutdown(self):
         """Graceful shutdown"""
@@ -845,7 +863,8 @@ Ready to have an amazing conversation? 🚀"""
 # ═══════════════════════════════════════════════════════════════════
 
 async def main():
-    """Main execution function"""
+    """Main execution function with enhanced error handling"""
+    bot = None
     try:
         # Load configuration
         logger.info("🔱 Loading Bonnie's divine configuration...")
@@ -856,19 +875,35 @@ async def main():
         bot = BonnieTelegramBot(config)
         await bot.initialize()
         
-        # Start bot based on configuration
-        if config.webhook_url:
-            await bot.start_webhook(config.webhook_url)
+        # Determine deployment mode
+        port = int(os.getenv('PORT', 10000))
+        webhook_url = config.webhook_url
+        
+        # Start bot based on environment
+        if webhook_url and webhook_url != "":
+            logger.info(f"🔗 Starting in webhook mode for Render deployment on port {port}")
+            await bot.start_webhook(webhook_url, port)
         else:
+            logger.info("🔄 Starting in polling mode for local development")
             await bot.start_polling()
             
     except KeyboardInterrupt:
         logger.info("🛑 Received shutdown signal...")
     except Exception as e:
         logger.error(f"💥 Fatal error: {e}")
+        logger.error("🔍 Error details:", exc_info=True)
+        
+        # Attempt graceful fallback
+        if bot and hasattr(bot, 'application') and bot.application:
+            try:
+                logger.info("🔄 Attempting graceful fallback to polling...")
+                await bot.start_polling()
+            except Exception as fallback_error:
+                logger.error(f"💥 Fallback failed: {fallback_error}")
+        
         raise
     finally:
-        if 'bot' in locals():
+        if bot:
             await bot.shutdown()
 
 if __name__ == "__main__":

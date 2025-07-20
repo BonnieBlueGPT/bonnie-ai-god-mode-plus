@@ -1,13 +1,18 @@
 # 🔱 BONNIE AI TELEGRAM BOT RENDER CONFIGURATION 🔱
-# render.yaml - Automatic deployment configuration
+# Automatic deployment configuration for Render.com
+# Supreme Architect approved deployment manifest
 
 services:
   - type: web
     name: bonnie-telegram-bot
     env: python
-    plan: starter  # or 'free' for free tier
+    plan: starter  # Upgrade to 'standard' for production scale
+    
+    # Build Configuration
     buildCommand: pip install -r requirements.txt
     startCommand: python bot.py
+    
+    # Environment Variables (Set these in Render Dashboard)
     envVars:
       - key: TELEGRAM_BOT_TOKEN
         fromSecret: TELEGRAM_BOT_TOKEN
@@ -23,10 +28,32 @@ services:
         value: 10000
       - key: PYTHON_VERSION
         value: 3.11.9
-    region: oregon  # or 'singapore', 'ohio', 'virginia'
-    healthCheckPath: /health  # Optional: if you implement health endpoint
+      - key: DEBUG_MODE
+        value: false
+      - key: LOG_LEVEL
+        value: INFO
+        
+    # Deployment Settings
+    region: oregon  # Options: oregon, virginia, singapore, ohio
+    healthCheckPath: /health  # Optional health endpoint
     
-# Optional: Define additional services like Redis cache
+    # Auto-deploy settings
+    autoDeploy: true
+    
+    # Resource limits
+    disk:
+      name: bonnie-storage
+      mountPath: /tmp
+      sizeGB: 1
+
+# Optional: Redis cache for session management
 # - type: redis
 #   name: bonnie-cache
 #   plan: starter
+#   region: oregon
+
+# Optional: PostgreSQL database (if not using Supabase)
+# - type: pgsql
+#   name: bonnie-db
+#   plan: starter
+#   region: oregon
