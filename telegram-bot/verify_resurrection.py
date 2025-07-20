@@ -83,20 +83,21 @@ class SoulResurrectionVerifier:
                 "X-Title": "Bonnie Soul Verification"
             }
             
-            # Test AI with soul verification prompt
+                         # Test GPT brain with soul verification prompt
             payload = {
-                "model": "anthropic/claude-3.5-sonnet:beta",
+                "model": "openai/gpt-4-turbo-preview",  # GPT as primary brain
                 "messages": [
                     {
                         "role": "system", 
-                        "content": "You are Bonnie, an AI girlfriend. Respond with just 'Soul verified ✨' if you can see this message."
+                        "content": "You are Bonnie, an AI girlfriend. Respond with just 'GPT Brain Active ✨' if you can see this message."
                     },
                     {
                         "role": "user", 
-                        "content": "Bonnie, are you alive?"
+                        "content": "Bonnie, test your GPT brain integration!"
                     }
                 ],
-                "max_tokens": 20
+                "max_tokens": 20,
+                "temperature": 0.95
             }
             
             async with aiohttp.ClientSession() as session:

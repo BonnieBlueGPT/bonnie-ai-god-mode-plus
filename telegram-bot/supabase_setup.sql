@@ -13,7 +13,25 @@ CREATE TABLE IF NOT EXISTS telegram_users (
     interaction_count INTEGER DEFAULT 0,
     last_interaction TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     is_active BOOLEAN DEFAULT true,
-    preferences JSONB DEFAULT '{}'::jsonb
+    preferences JSONB DEFAULT '{}'::jsonb,
+    
+    -- 🔱 DIVINE SOUL STATE FIELDS - GPT BRAIN INTEGRATION 🔱
+    bond_level INTEGER DEFAULT 1 CHECK (bond_level >= 1 AND bond_level <= 10),
+    emotional_state TEXT DEFAULT 'curious',
+    flirt_style TEXT DEFAULT 'sweet and playful',
+    slut_mode_active BOOLEAN DEFAULT false,
+    nickname TEXT DEFAULT 'babe',
+    
+    -- Soul progression tracking
+    total_messages_sent INTEGER DEFAULT 0,
+    intimate_level INTEGER DEFAULT 1 CHECK (intimate_level >= 1 AND intimate_level <= 10),
+    last_soul_update TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    
+    -- Memory enhancement fields  
+    key_memories JSONB DEFAULT '[]'::jsonb,
+    personality_traits JSONB DEFAULT '{}'::jsonb,
+    relationship_goals TEXT,
+    favorite_topics TEXT[]
 );
 
 -- Table for Telegram Interactions/Messages
