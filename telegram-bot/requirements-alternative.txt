@@ -1,6 +1,5 @@
-# 🔱 BONNIE AI TELEGRAM BOT DEPENDENCIES 🔱
-# Production-ready versions for Render deployment
-# Emergency fix: Let supabase manage realtime dependency
+# 🔱 ALTERNATIVE COMPATIBILITY MATRIX 🔱
+# Testing latest versions for optimal compatibility
 
 # Telegram Bot Framework
 python-telegram-bot==21.3
@@ -9,13 +8,14 @@ python-telegram-bot==21.3
 aiohttp==3.9.1
 httpx==0.25.2
 
-# Supabase Client (auto-manages realtime dependency)
-supabase==2.3.0
+# Supabase Client (Latest versions)
+supabase==2.6.0
+realtime==2.6.0
 
 # Environment Management
 python-dotenv==1.0.0
 
-# Data Processing (Compatible versions)
+# Data Processing (Latest compatible)
 pydantic==2.5.0
 pydantic-core==2.14.0
 
