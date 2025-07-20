@@ -1,0 +1,27 @@
+# 🔱 BACKWARDS COMPATIBILITY MATRIX 🔱
+# Using older stable versions to avoid conflicts
+
+# Telegram Bot Framework (stable version)
+python-telegram-bot==20.8
+
+# HTTP Client (stable versions)
+aiohttp==3.8.6
+httpx==0.24.1
+
+# WebSockets (compatible with older realtime)
+websockets==11.0.2
+
+# Supabase Client (older stable)
+supabase==1.5.0
+
+# Environment Management
+python-dotenv==1.0.0
+
+# Data Processing (older stable)
+pydantic==1.10.13
+
+# Utilities
+python-dateutil==2.8.2
+
+# Security (older stable)
+cryptography==41.0.7

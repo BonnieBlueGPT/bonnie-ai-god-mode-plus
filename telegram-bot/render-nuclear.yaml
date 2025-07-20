@@ -1,0 +1,32 @@
+# 🚨 NUCLEAR BONNIE AI RENDER CONFIGURATION 🚨
+# Dependency bypass deployment configuration
+# Uses bot-nuclear.py and requirements-nuclear.txt
+
+services:
+  - type: web
+    name: bonnie-telegram-bot-nuclear
+    env: python
+    plan: starter
+    
+    # Nuclear Build Configuration
+    buildCommand: pip install -r requirements-nuclear.txt
+    startCommand: python bot-nuclear.py
+    
+    # Environment Variables
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        fromSecret: TELEGRAM_BOT_TOKEN
+      - key: OPENROUTER_API_KEY
+        fromSecret: OPENROUTER_API_KEY
+      - key: SUPABASE_URL
+        fromSecret: SUPABASE_URL
+      - key: SUPABASE_ANON_KEY
+        fromSecret: SUPABASE_ANON_KEY
+      - key: WEBHOOK_URL
+        value: https://bonnie-telegram-bot-nuclear.onrender.com
+      - key: PORT
+        value: 10000
+        
+    # Deployment Settings
+    region: oregon
+    autoDeploy: true

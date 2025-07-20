@@ -1,0 +1,33 @@
+# 🔱 ALTERNATIVE COMPATIBILITY MATRIX 🔱
+# Testing latest versions for optimal compatibility
+
+# Telegram Bot Framework
+python-telegram-bot==21.3
+
+# HTTP Client for OpenRouter API
+aiohttp==3.9.1
+httpx==0.25.2
+
+# Supabase Client (Latest versions)
+supabase==2.6.0
+realtime==2.6.0
+
+# Environment Management
+python-dotenv==1.0.0
+
+# Data Processing (Latest compatible)
+pydantic==2.5.0
+pydantic-core==2.14.0
+
+# Utilities
+python-dateutil==2.8.2
+typing-extensions==4.8.0
+
+# Security
+cryptography==41.0.8
+
+# Optional: For webhook SSL
+gunicorn==21.2.0
+
+# Optional: Enhanced logging
+colorama==0.4.6

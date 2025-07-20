@@ -1,0 +1,18 @@
+# 🚨 ULTRA-MINIMAL EMERGENCY DEPLOYMENT 🚨
+# Core functionality only - bypasses all dependency conflicts
+
+# Telegram Bot Framework (essential)
+python-telegram-bot
+
+# HTTP Client for API calls (essential)
+aiohttp
+httpx
+
+# Environment Management (essential)
+python-dotenv
+
+# Supabase Client (essential for memory)
+supabase
+
+# Let pip resolve all versions automatically
+# This bypasses specific version conflicts

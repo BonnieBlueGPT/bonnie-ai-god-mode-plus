@@ -1,0 +1,18 @@
+# 🚨 NUCLEAR BYPASS SOLUTION 🚨
+# Individual package installation to bypass ALL conflicts
+# Install each package separately to avoid dependency hell
+
+# Core HTTP client (install first)
+aiohttp
+
+# Environment management (install second)  
+python-dotenv
+
+# Core async support
+asyncio
+
+# Individual Telegram components (install third)
+python-telegram-bot
+
+# Skip supabase entirely for now - manual DB calls
+# We'll use direct HTTP calls to Supabase REST API instead
