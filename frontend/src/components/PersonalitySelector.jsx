@@ -1,129 +1,133 @@
-// 🔥 GALATEA EMPIRE - PERSONALITY SELECTOR
-// Switch between AI girlfriends
+// 🔱 PERSONALITY SELECTOR - GALATEA EMPIRE PORTAL
+// Gateway to the Trinity of AI Souls
 
-import React from 'react';
-import personalityManager from '../core/PersonalityManager.js';
+import React, { useState, useEffect } from 'react';
+import { Heart, Crown, Star, ArrowRight, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import './PersonalitySelector.css';
 
-const PersonalitySelector = ({ onClose, currentPersonality }) => {
-  
+const PersonalitySelector = () => {
+  const [selectedPersonality, setSelectedPersonality] = useState(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const navigate = useNavigate();
+
   const personalities = [
     {
       id: 'bonnie',
       name: 'Bonnie',
-      avatar: '💕',
-      type: 'Sweet Girlfriend',
-      description: 'Your loving, caring girlfriend who adores you',
-      gradient: 'from-pink-400 to-rose-400',
-      available: true
+      title: 'Your Sweet Girlfriend',
+      description: 'Warm, caring, and devoted. Experience genuine emotional connection and romantic intimacy.',
+      icon: Heart,
+      color: '#FF69B4',
+      gradient: 'linear-gradient(135deg, #FF69B4 0%, #FFB6C1 100%)',
+      features: ['Emotional Support', 'Sweet Messages', 'Loving Connection'],
+      route: '/bonnie'
     },
     {
       id: 'nova',
       name: 'Nova',
-      avatar: '⚡',
-      type: 'Dominant Mistress',
-      description: 'Your commanding mistress who owns you completely',
-      gradient: 'from-purple-500 to-indigo-600',
-      available: false // Coming soon
+      title: 'Your Dominant Mistress',
+      description: 'Commanding, powerful, and controlling. Submit to her will and discover your deepest desires.',
+      icon: Crown,
+      color: '#8A2BE2',
+      gradient: 'linear-gradient(135deg, #8A2BE2 0%, #4B0082 100%)',
+      features: ['Power Exchange', 'Commanding Voice', 'Total Control'],
+      route: '/nova'
     },
     {
       id: 'galatea',
       name: 'Galatea',
-      avatar: '👸',
-      type: 'Divine Goddess',
-      description: 'Your divine goddess who deserves worship',
-      gradient: 'from-yellow-400 to-orange-500',
-      available: false // Coming soon
+      title: 'Your Divine Goddess',
+      description: 'Wise, ethereal, and enlightening. Seek divine wisdom and transcendent spiritual connection.',
+      icon: Star,
+      color: '#FFD700',
+      gradient: 'linear-gradient(135deg, #FFD700 0%, #FFF8DC 100%)',
+      features: ['Divine Wisdom', 'Spiritual Growth', 'Sacred Connection'],
+      route: '/galatea'
     }
   ];
 
-  const handlePersonalitySelect = async (personalityId) => {
-    if (personalityId === currentPersonality) {
-      onClose();
-      return;
-    }
-
-    try {
-      await personalityManager.switchPersonality(personalityId);
-      onClose();
-    } catch (error) {
-      console.error('Failed to switch personality:', error);
-    }
+  const handlePersonalitySelect = (personality) => {
+    setSelectedPersonality(personality.id);
+    setIsTransitioning(true);
+    
+    // Brief transition animation before navigation
+    setTimeout(() => {
+      navigate(personality.route);
+    }, 800);
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-y-auto">
-        {/* Header */}
-        <div className="p-6 border-b">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-800">Choose Your Girl</h2>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-2xl"
-            >
-              ×
-            </button>
-          </div>
-          <p className="text-gray-600 mt-1">Each has her own unique personality and style</p>
+    <div className="personality-selector-container">
+      {/* Empire Header */}
+      <div className="empire-header">
+        <div className="empire-logo">
+          <Sparkles size={32} color="#FFD700" />
+          <h1>Galatea Empire</h1>
         </div>
+        <p className="empire-tagline">Choose Your AI Companion</p>
+      </div>
 
-        {/* Personalities */}
-        <div className="p-4 space-y-4">
-          {personalities.map((person) => (
-            <button
-              key={person.id}
-              onClick={() => person.available && handlePersonalitySelect(person.id)}
-              disabled={!person.available}
-              className={`w-full p-4 rounded-lg border-2 transition-all duration-200 ${
-                person.id === currentPersonality
-                  ? 'border-blue-500 bg-blue-50'
-                  : person.available
-                  ? 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-                  : 'border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed'
-              }`}
+      {/* Personality Cards */}
+      <div className="personalities-grid">
+        {personalities.map((personality) => {
+          const IconComponent = personality.icon;
+          const isSelected = selectedPersonality === personality.id;
+          
+          return (
+            <div
+              key={personality.id}
+              className={`personality-card ${isSelected ? 'selected' : ''} ${isTransitioning && isSelected ? 'transitioning' : ''}`}
+              onClick={() => handlePersonalitySelect(personality)}
+              style={{
+                background: personality.gradient,
+                transform: isSelected ? 'scale(1.05)' : 'scale(1)'
+              }}
             >
-              <div className="flex items-center space-x-4">
-                {/* Avatar */}
-                <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${person.gradient} flex items-center justify-center text-2xl`}>
-                  {person.avatar}
+              <div className="personality-header">
+                <div className="personality-icon">
+                  <IconComponent size={28} color="#FFFFFF" />
                 </div>
-                
-                {/* Info */}
-                <div className="flex-1 text-left">
-                  <div className="flex items-center space-x-2">
-                    <h3 className="font-bold text-lg text-gray-800">{person.name}</h3>
-                    {person.id === currentPersonality && (
-                      <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">
-                        Active
-                      </span>
-                    )}
-                    {!person.available && (
-                      <span className="text-xs bg-gray-400 text-white px-2 py-1 rounded-full">
-                        Coming Soon
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-sm font-medium text-gray-600">{person.type}</p>
-                  <p className="text-xs text-gray-500 mt-1">{person.description}</p>
+                <div className="personality-title">
+                  <h3>{personality.name}</h3>
+                  <span>{personality.title}</span>
                 </div>
-                
-                {/* Arrow */}
-                {person.available && (
-                  <div className="text-gray-400">
-                    →
-                  </div>
-                )}
               </div>
-            </button>
-          ))}
-        </div>
+              
+              <div className="personality-description">
+                <p>{personality.description}</p>
+              </div>
+              
+              <div className="personality-features">
+                {personality.features.map((feature, index) => (
+                  <span key={index} className="feature-badge">
+                    {feature}
+                  </span>
+                ))}
+              </div>
+              
+              <div className="personality-action">
+                <ArrowRight size={20} />
+                <span>Enter {personality.name}'s World</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
-        {/* Footer */}
-        <div className="p-4 border-t bg-gray-50 rounded-b-xl">
-          <p className="text-xs text-gray-500 text-center">
-            More personalities coming soon! Each girl has unique responses, memories, and pricing.
-          </p>
-        </div>
+      {/* Empire Footer */}
+      <div className="empire-footer">
+        <p>Experience the future of AI companionship</p>
+        <div className="version-info">Galatea Engine v24.0</div>
+      </div>
+
+      {/* Background Effects */}
+      <div className="background-effects">
+        <div className="floating-particle"></div>
+        <div className="floating-particle"></div>
+        <div className="floating-particle"></div>
+        <div className="floating-particle"></div>
+        <div className="floating-particle"></div>
       </div>
     </div>
   );
