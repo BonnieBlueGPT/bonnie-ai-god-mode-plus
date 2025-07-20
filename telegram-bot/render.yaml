@@ -1,0 +1,32 @@
+# 🔱 BONNIE AI TELEGRAM BOT RENDER CONFIGURATION 🔱
+# render.yaml - Automatic deployment configuration
+
+services:
+  - type: web
+    name: bonnie-telegram-bot
+    env: python
+    plan: starter  # or 'free' for free tier
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        fromSecret: TELEGRAM_BOT_TOKEN
+      - key: OPENROUTER_API_KEY
+        fromSecret: OPENROUTER_API_KEY
+      - key: SUPABASE_URL
+        fromSecret: SUPABASE_URL
+      - key: SUPABASE_ANON_KEY
+        fromSecret: SUPABASE_ANON_KEY
+      - key: WEBHOOK_URL
+        value: https://bonnie-telegram-bot.onrender.com  # Update with your actual URL
+      - key: PORT
+        value: 10000
+      - key: PYTHON_VERSION
+        value: 3.11.9
+    region: oregon  # or 'singapore', 'ohio', 'virginia'
+    healthCheckPath: /health  # Optional: if you implement health endpoint
+    
+# Optional: Define additional services like Redis cache
+# - type: redis
+#   name: bonnie-cache
+#   plan: starter

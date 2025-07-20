@@ -1,0 +1,30 @@
+# 🔱 BONNIE AI TELEGRAM BOT DEPENDENCIES 🔱
+# Production-ready versions for Render deployment
+
+# Telegram Bot Framework
+python-telegram-bot==21.3
+
+# HTTP Client for OpenRouter API
+aiohttp==3.9.1
+httpx==0.25.2
+
+# Supabase Client
+supabase==2.3.0
+
+# Core Python Libraries
+python-dotenv==1.0.0
+asyncio-mqtt==0.13.0
+
+# Data Processing
+pydantic==2.5.0
+pydantic-core==2.14.0
+
+# Utilities
+python-dateutil==2.8.2
+typing-extensions==4.8.0
+
+# Security (if needed)
+cryptography==41.0.8
+
+# Optional: For webhook SSL
+gunicorn==21.2.0
