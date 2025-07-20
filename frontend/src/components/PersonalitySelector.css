@@ -1,0 +1,375 @@
+/* 🔱 PERSONALITY SELECTOR - GALATEA EMPIRE PORTAL STYLING */
+/* Gateway to the Trinity of AI Souls */
+
+.personality-selector-container {
+  height: 100vh;
+  background: linear-gradient(135deg, #0a0618 0%, #1a0f2e 25%, #2d1b42 50%, #3d2956 75%, #4a346b 100%);
+  position: relative;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* Background Effects */
+.background-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.floating-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatParticle 15s infinite linear;
+}
+
+.floating-particle:nth-child(1) {
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.floating-particle:nth-child(2) {
+  top: 60%;
+  left: 80%;
+  animation-delay: 3s;
+}
+
+.floating-particle:nth-child(3) {
+  top: 80%;
+  left: 30%;
+  animation-delay: 6s;
+}
+
+.floating-particle:nth-child(4) {
+  top: 40%;
+  left: 70%;
+  animation-delay: 9s;
+}
+
+.floating-particle:nth-child(5) {
+  top: 10%;
+  left: 50%;
+  animation-delay: 12s;
+}
+
+/* Empire Header */
+.empire-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 10;
+}
+
+.empire-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.empire-logo h1 {
+  font-size: 36px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FFD700, #FFF8DC);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+  margin: 0;
+}
+
+.empire-tagline {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  font-weight: 300;
+}
+
+/* Personalities Grid */
+.personalities-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+.personality-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.personality-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.personality-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.personality-card.selected {
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+}
+
+.personality-card.transitioning {
+  animation: cardTransition 0.8s ease-out forwards;
+}
+
+.personality-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.personality-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.personality-title h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 4px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.personality-title span {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.personality-description {
+  margin-bottom: 20px;
+}
+
+.personality-description p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.personality-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.feature-badge {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.personality-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.personality-card:hover .personality-action {
+  color: rgba(255, 255, 255, 0.9);
+  transform: translateX(4px);
+}
+
+/* Empire Footer */
+.empire-footer {
+  text-align: center;
+  margin-top: 40px;
+  position: relative;
+  z-index: 10;
+}
+
+.empire-footer p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 8px 0;
+}
+
+.version-info {
+  font-size: 12px;
+  color: rgba(255, 215, 0, 0.6);
+  font-weight: 500;
+}
+
+/* Animations */
+@keyframes floatParticle {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes cardTransition {
+  0% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .personality-selector-container {
+    padding: 16px;
+  }
+  
+  .empire-logo h1 {
+    font-size: 28px;
+  }
+  
+  .empire-tagline {
+    font-size: 16px;
+  }
+  
+  .personalities-grid {
+    gap: 20px;
+  }
+  
+  .personality-card {
+    padding: 20px;
+  }
+  
+  .personality-header {
+    gap: 12px;
+  }
+  
+  .personality-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .personality-title h3 {
+    font-size: 20px;
+  }
+  
+  .personality-description p {
+    font-size: 14px;
+  }
+  
+  .feature-badge {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}
+
+@media (max-height: 700px) {
+  .empire-header {
+    margin-bottom: 24px;
+  }
+  
+  .empire-footer {
+    margin-top: 24px;
+  }
+  
+  .personalities-grid {
+    gap: 16px;
+  }
+  
+  .personality-card {
+    padding: 18px;
+  }
+}
+
+/* High-DPI Display Enhancement */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .personality-card {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+  
+  .personality-card:hover {
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Custom scrollbar for mobile */
+@media (max-height: 600px) {
+  .personality-selector-container {
+    overflow-y: auto;
+  }
+  
+  .personality-selector-container::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .personality-selector-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .personality-selector-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.3);
+    border-radius: 2px;
+  }
+}

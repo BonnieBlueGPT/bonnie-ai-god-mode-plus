@@ -1,0 +1,46 @@
+{
+  "name": "galatea-ai-empire",
+  "version": "2.0.0",
+  "description": "🔥 Modular AI Girlfriend Empire - Mobile-first personality switching platform",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "test": "vitest",
+    "analyze": "npx vite-bundle-analyzer"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1",
+    "lucide-react": "^0.263.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "vite": "^4.4.5",
+    "vitest": "^0.34.0"
+  },
+  "keywords": [
+    "ai",
+    "girlfriend",
+    "chat",
+    "personality",
+    "mobile",
+    "react",
+    "vite",
+    "modular"
+  ],
+  "author": "Galatea AI Empire",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

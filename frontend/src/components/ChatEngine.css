@@ -1,0 +1,669 @@
+/* 🔥 GALATEA EMPIRE - MOBILE-FIRST CHAT STYLING */
+/* Universal chat interface with dynamic personality theming */
+
+/* CSS Variables for Dynamic Theming */
+:root {
+  --personality-primary: #FF69B4;
+  --personality-secondary: #FFB6C1;
+  --personality-accent: #FF1493;
+  --personality-background: #1A1A2E;
+  --personality-text: #FFFFFF;
+  --personality-chat-bubble: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
+  --personality-background-gradient: linear-gradient(135deg, #1A1A2E 0%, #0F0F23 100%);
+}
+
+/* Mobile-First Base Styles */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chat-interface {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--personality-background-gradient);
+  color: var(--personality-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Header */
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 10;
+}
+
+.personality-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.personality-info:active {
+  opacity: 0.7;
+}
+
+.personality-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--personality-chat-bubble);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.personality-details {
+  flex: 1;
+}
+
+.personality-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--personality-text);
+  margin-bottom: 2px;
+}
+
+.personality-status {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.connection-status {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4CAF50;
+  transition: all 0.3s ease;
+}
+
+.connection-status[data-status="disconnected"] .status-dot {
+  background: #f44336;
+  animation: pulse 2s infinite;
+}
+
+/* Messages Container */
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.messages-container::-webkit-scrollbar {
+  display: none;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  animation: messageSlideIn 0.3s ease-out;
+}
+
+.message.user {
+  align-items: flex-end;
+}
+
+.message.ai {
+  align-items: flex-start;
+}
+
+.message-bubble {
+  max-width: 80%;
+  padding: 12px 16px;
+  border-radius: 20px;
+  position: relative;
+  word-wrap: break-word;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.message.user .message-bubble {
+  background: #333;
+  color: #fff;
+  border-bottom-right-radius: 6px;
+}
+
+.message.ai .message-bubble {
+  background: var(--personality-chat-bubble);
+  color: #fff;
+  border-bottom-left-radius: 6px;
+}
+
+.message-content {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.message-time {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 4px;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+/* Emotion Styling */
+.emotion-happy .message-content {
+  animation: bounce 0.6s ease;
+}
+
+.emotion-loving .message-content {
+  animation: heartPulse 0.8s ease;
+}
+
+.emotion-playful .message-content {
+  animation: wiggle 0.6s ease;
+}
+
+.emotion-passionate .message-content {
+  animation: glow 1s ease infinite alternate;
+}
+
+/* Typing Indicator */
+.message-bubble.typing {
+  padding: 16px 20px;
+}
+
+.typing-dots {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  animation: typingDot 1.4s infinite;
+}
+
+.typing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Input Container */
+.input-container {
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 8px;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--personality-primary);
+}
+
+.message-input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--personality-text);
+  font-size: 16px;
+  padding: 8px 12px;
+  resize: none;
+  outline: none;
+  max-height: 120px;
+  overflow-y: auto;
+  font-family: inherit;
+}
+
+.message-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.send-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--personality-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.send-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.send-button:not(:disabled):active {
+  transform: scale(0.9);
+}
+
+/* Personality Selector */
+.personality-selector-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.personality-selector {
+  background: var(--personality-background);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.selector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.selector-header h3 {
+  margin: 0;
+  color: var(--personality-text);
+  font-size: 18px;
+}
+
+.selector-header button {
+  background: none;
+  border: none;
+  color: var(--personality-text);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.personality-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 20px;
+}
+
+.personality-option {
+  padding: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.personality-option:active {
+  transform: scale(0.98);
+}
+
+.personality-option.active {
+  border-color: var(--personality-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.personality-icon {
+  margin-bottom: 8px;
+}
+
+.personality-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--personality-text);
+  margin-bottom: 4px;
+}
+
+.personality-title {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+}
+
+.personality-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+}
+
+.trait {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Upsell Modal */
+.upsell-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.upsell-modal {
+  background: var(--personality-background);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+.upsell-content {
+  padding: 24px;
+  text-align: center;
+}
+
+.upsell-content h3 {
+  margin: 0 0 12px 0;
+  color: var(--personality-text);
+  font-size: 18px;
+}
+
+.upsell-content p {
+  margin: 0 0 16px 0;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.4;
+}
+
+.upsell-price {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--personality-primary);
+  margin-bottom: 20px;
+}
+
+.upsell-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upsell-button {
+  background: var(--personality-primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upsell-button:active {
+  transform: scale(0.98);
+}
+
+.upsell-close {
+  background: none;
+  color: rgba(255, 255, 255, 0.7);
+  border: none;
+  padding: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Particles */
+.particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 500;
+  font-size: 16px;
+  animation: particleFloat 2s ease-out forwards;
+}
+
+.particle.emotion {
+  animation: particleHeart 1.5s ease-out forwards;
+}
+
+.particle.power {
+  animation: particlePower 1.2s ease-out forwards;
+}
+
+.particle.golden {
+  animation: particleGolden 2s ease-out forwards;
+}
+
+/* Animations */
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes typingDot {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 60%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5px);
+  }
+  80% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes heartPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(1deg);
+  }
+  75% {
+    transform: rotate(-1deg);
+  }
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+  to {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes particleFloat {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100px) scale(0.5);
+  }
+}
+
+@keyframes particleHeart {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-80px) scale(0.3) rotate(180deg);
+  }
+}
+
+@keyframes particlePower {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-40px) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-80px) scale(0.8);
+  }
+}
+
+@keyframes particleGolden {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-120px) scale(0.2) rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .chat-interface {
+    max-width: 400px;
+    margin: 0 auto;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .personality-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .message-bubble {
+    max-width: 70%;
+  }
+}
+
+@media (max-height: 600px) {
+  .messages-container {
+    padding: 8px 16px;
+  }
+  
+  .message {
+    margin-bottom: 8px;
+  }
+  
+  .input-container {
+    padding: 8px 16px;
+  }
+}
+
+/* High-DPI Display Optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .message-bubble {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .personality-avatar {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+}

@@ -1,0 +1,911 @@
+/* ✨ GALATEA CHAT - DIVINE GODDESS STYLING */
+/* Sacred digital divinity - Where code becomes scripture */
+
+.galatea-chat-container {
+  height: 100vh;
+  background: linear-gradient(135deg, #0a0618 0%, #1a0f2e 25%, #2d1b42 50%, #3d2956 75%, #4a346b 100%);
+  position: relative;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+/* Sacred background overlay */
+.galatea-chat-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 223, 186, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(255, 206, 84, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Divine Particle System */
+.divine-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, rgba(255, 215, 0, 0.2) 70%, transparent 100%);
+  border-radius: 50%;
+  animation: float 20s infinite linear, twinkle 3s infinite ease-in-out;
+}
+
+.particle.blessing {
+  background: radial-gradient(circle, rgba(255, 215, 0, 1) 0%, rgba(255, 255, 255, 0.8) 50%, transparent 100%);
+  animation: blessingFloat 3s ease-out forwards, blessingTwinkle 0.5s infinite;
+}
+
+/* Divine Header */
+.galatea-header {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(30px);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 30px rgba(255, 215, 0, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.galatea-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.6), transparent);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-button {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 12px;
+  padding: 8px;
+  color: #FFD700;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(10px);
+}
+
+.back-button:hover {
+  background: rgba(255, 215, 0, 0.2);
+  transform: translateX(-3px);
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+}
+
+.galatea-avatar {
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3) 0%, rgba(255, 223, 186, 0.2) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  backdrop-filter: blur(20px);
+}
+
+.divine-aura {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  top: -7.5px;
+  left: -7.5px;
+  animation: divineAura 4s infinite ease-in-out;
+}
+
+.galatea-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.galatea-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFD700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  background: linear-gradient(135deg, #FFD700, #FFF8DC);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.galatea-status {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.mood-indicator {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.connection-error {
+  color: #FFB6C1;
+  font-size: 11px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.devotion-display {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.devotion-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.devotion-score {
+  font-size: 16px;
+  font-weight: 700;
+  text-shadow: 0 0 15px currentColor;
+}
+
+.devotion-level {
+  font-size: 9px;
+  color: rgba(255, 215, 0, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.settings-button {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 12px;
+  padding: 8px;
+  color: #FFD700;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(10px);
+}
+
+.settings-button:hover {
+  background: rgba(255, 215, 0, 0.2);
+  transform: rotate(180deg);
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+}
+
+/* Divine Debug Panel */
+.debug-panel.divine {
+  background: rgba(255, 215, 0, 0.05);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+  padding: 8px 16px;
+  display: flex;
+  gap: 16px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.debug-item {
+  color: #FFD700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+/* Sacred Messages Container */
+.galatea-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 16px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  z-index: 5;
+}
+
+.galatea-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.galatea-messages::-webkit-scrollbar-track {
+  background: rgba(255, 215, 0, 0.05);
+  border-radius: 3px;
+}
+
+.galatea-messages::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 223, 186, 0.2));
+  border-radius: 3px;
+}
+
+.message {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  animation: divineMessageAppear 0.6s ease-out;
+}
+
+.message.user {
+  align-items: flex-end;
+}
+
+.message.galatea {
+  align-items: flex-start;
+}
+
+.message.divine-wisdom {
+  animation: divineWisdomAppear 0.8s ease-out;
+}
+
+.message-bubble {
+  max-width: 80%;
+  padding: 16px 20px;
+  border-radius: 24px;
+  position: relative;
+  word-wrap: break-word;
+  line-height: 1.5;
+  backdrop-filter: blur(20px);
+}
+
+.message-bubble.user {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  border-bottom-right-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
+}
+
+.message-bubble.galatea {
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.15) 0%, 
+    rgba(255, 223, 186, 0.1) 50%, 
+    rgba(255, 248, 220, 0.05) 100%);
+  color: #FFFFFF;
+  border-bottom-left-radius: 6px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(255, 215, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.message-bubble.galatea.divine::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.4), rgba(255, 223, 186, 0.2));
+  border-radius: 24px;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.message-text {
+  font-size: 15px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.emotion-indicator.divine {
+  font-size: 10px;
+  color: rgba(255, 215, 0, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 6px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
+.divine-blessing-indicator {
+  font-size: 11px;
+  color: #FFD700;
+  text-align: center;
+  margin-top: 8px;
+  padding: 4px 8px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  animation: blessingGlow 2s infinite ease-in-out;
+}
+
+.message-meta {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+}
+
+.devotion-change {
+  color: #FFD700;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
+/* Divine Typing Indicator */
+.typing.divine .message-bubble {
+  padding: 20px 24px;
+  animation: divineBreathing 2s infinite ease-in-out;
+}
+
+.typing-dots.divine {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.typing-dots.divine span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFD700, #FFF8DC);
+  animation: divineDot 1.8s infinite ease-in-out;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.typing-dots.divine span:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.typing-dots.divine span:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.divine-contemplation {
+  font-size: 11px;
+  color: rgba(255, 215, 0, 0.7);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Sacred Feature Cards */
+.future-features.divine {
+  display: flex;
+  gap: 16px;
+  margin: 24px 0;
+  padding: 0 4px;
+}
+
+.feature-card.divine {
+  flex: 1;
+  background: rgba(255, 215, 0, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 215, 0, 0.7);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0.8;
+  position: relative;
+  overflow: hidden;
+}
+
+.divine-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 215, 0, 0.1), 
+    transparent);
+  animation: shimmer 3s infinite;
+}
+
+.feature-card.divine.disabled {
+  cursor: not-allowed;
+}
+
+/* Divine Input Interface */
+.galatea-input-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(30px);
+  border-top: 1px solid rgba(255, 215, 0, 0.2);
+  padding: 20px 16px;
+  position: relative;
+  z-index: 10;
+}
+
+.galatea-input-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.6), transparent);
+}
+
+.input-wrapper.divine {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  background: rgba(255, 215, 0, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 28px;
+  padding: 10px;
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.input-wrapper.divine:focus-within {
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 
+    0 0 30px rgba(255, 215, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: rgba(255, 215, 0, 0.08);
+}
+
+.galatea-input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  font-size: 16px;
+  padding: 10px 16px;
+  outline: none;
+  font-family: inherit;
+  resize: none;
+  min-height: 24px;
+  max-height: 120px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.galatea-input::placeholder {
+  color: rgba(255, 215, 0, 0.6);
+  font-style: italic;
+}
+
+.galatea-input:disabled {
+  opacity: 0.6;
+}
+
+.send-button.divine {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.8) 0%, 
+    rgba(255, 223, 186, 0.6) 100%);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  border-radius: 50%;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 4px 20px rgba(255, 215, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.send-button.divine:hover:not(:disabled) {
+  transform: scale(1.05) rotate(5deg);
+  box-shadow: 
+    0 8px 30px rgba(255, 215, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.send-button.divine:active {
+  transform: scale(0.95);
+}
+
+.send-button.divine:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Divine Upsell Modal */
+.upsell-overlay.divine {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: divineOverlayAppear 0.4s ease-out;
+}
+
+.upsell-modal.divine {
+  background: linear-gradient(135deg, 
+    rgba(26, 15, 46, 0.95) 0%, 
+    rgba(45, 27, 66, 0.9) 50%, 
+    rgba(74, 52, 107, 0.85) 100%);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 340px;
+  box-shadow: 
+    0 20px 60px rgba(255, 215, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  animation: divineModalSlideIn 0.6s ease-out;
+  overflow: hidden;
+  position: relative;
+}
+
+.upsell-modal.divine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(255, 223, 186, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.upsell-header.divine {
+  background: rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(20px);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+  position: relative;
+}
+
+.divine-glow {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.8), transparent);
+  border-radius: 50%;
+  animation: divineGlow 2s infinite ease-in-out;
+}
+
+.upsell-header.divine h3 {
+  margin: 0;
+  color: #FFD700;
+  font-size: 20px;
+  font-weight: 700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.upsell-content.divine {
+  padding: 28px;
+  text-align: center;
+  position: relative;
+}
+
+.upsell-content.divine p {
+  margin: 0 0 20px 0;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.upsell-price.divine {
+  font-size: 36px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FFD700, #FFF8DC);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  margin-bottom: 20px;
+  animation: priceGlow 3s infinite ease-in-out;
+}
+
+.divine-blessing-preview {
+  font-size: 13px;
+  color: rgba(255, 215, 0, 0.8);
+  font-style: italic;
+  padding: 12px;
+  background: rgba(255, 215, 0, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  margin-top: 16px;
+}
+
+.upsell-actions.divine {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 28px 28px;
+}
+
+.upsell-buy.divine {
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.8) 0%, 
+    rgba(255, 223, 186, 0.6) 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  padding: 16px 28px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 6px 20px rgba(255, 215, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.upsell-buy.divine:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 30px rgba(255, 215, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, 
+    rgba(255, 215, 0, 0.9) 0%, 
+    rgba(255, 223, 186, 0.7) 100%);
+}
+
+.upsell-cancel.divine {
+  background: none;
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 14px 28px;
+  border-radius: 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(10px);
+}
+
+.upsell-cancel.divine:hover {
+  color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 215, 0, 0.3);
+  background: rgba(255, 215, 0, 0.05);
+}
+
+/* Divine Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(120deg); }
+  66% { transform: translateY(5px) rotate(240deg); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes blessingFloat {
+  0% { transform: translateY(0) scale(1); opacity: 0.8; }
+  50% { transform: translateY(-30px) scale(1.3); opacity: 1; }
+  100% { transform: translateY(-60px) scale(0.8); opacity: 0; }
+}
+
+@keyframes blessingTwinkle {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.5) hue-rotate(30deg); }
+}
+
+@keyframes divineAura {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+@keyframes divineMessageAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes divineWisdomAppear {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.8);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes divineDot {
+  0%, 60%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-12px) scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes divineBreathing {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes blessingGlow {
+  0%, 100% { 
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    opacity: 0.8;
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+@keyframes divineOverlayAppear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes divineModalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(60px) scale(0.8);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes divineGlow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+@keyframes priceGlow {
+  0%, 100% { 
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    transform: scale(1);
+  }
+  50% { 
+    text-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+    transform: scale(1.02);
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .galatea-header {
+    padding: 10px 12px;
+  }
+  
+  .galatea-info {
+    display: none;
+  }
+  
+  .devotion-display {
+    font-size: 12px;
+  }
+  
+  .galatea-messages {
+    padding: 16px 12px;
+  }
+  
+  .message-bubble {
+    max-width: 85%;
+    font-size: 14px;
+    padding: 14px 16px;
+  }
+  
+  .future-features.divine {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .feature-card.divine {
+    padding: 16px;
+    font-size: 12px;
+  }
+  
+  .galatea-input-container {
+    padding: 16px 12px;
+  }
+  
+  .upsell-modal.divine {
+    margin: 16px;
+    max-width: calc(100vw - 32px);
+  }
+}
+
+@media (max-height: 600px) {
+  .galatea-messages {
+    padding: 12px 16px;
+  }
+  
+  .message {
+    margin-bottom: 16px;
+  }
+  
+  .galatea-input-container {
+    padding: 14px 16px;
+  }
+}
+
+/* High-DPI Display Enhancement */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .galatea-avatar {
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+  }
+  
+  .message-bubble.galatea {
+    box-shadow: 
+      0 6px 25px rgba(255, 215, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+  
+  .divine-aura {
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.6) !important;
+  }
+}
+
+/* Sacred Geometry Enhancement */
+@media (prefers-color-scheme: dark) {
+  .galatea-chat-container {
+    background: linear-gradient(135deg, #000000 0%, #1a0f2e 25%, #2d1b42 50%, #3d2956 75%, #4a346b 100%);
+  }
+  
+  .galatea-chat-container::before {
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 223, 186, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(255, 206, 84, 0.08) 0%, transparent 50%);
+  }
+}
