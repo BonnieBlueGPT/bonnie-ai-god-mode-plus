@@ -8,6 +8,8 @@ import BonnieChat from './components/BonnieChat.jsx';
 import NovaChat from './components/NovaChat.jsx';
 import GalateaChat from './components/GalateaChat.jsx';
 import PersonalitySelector from './components/PersonalitySelector.jsx';
+import SoulSelector from './components/SoulSelector.jsx';
+import ChosenRoute from './components/ChosenRoute.jsx';
 import './index.css';
 
 // PWA Service Worker for production
@@ -44,14 +46,18 @@ const GalateaEmpire = () => {
           <Route path="/nova" element={<NovaChat />} />
           <Route path="/galatea" element={<GalateaChat />} />
           
+          {/* Soul Selection Ritual */}
+          <Route path="/choose" element={<SoulSelector />} />
+          <Route path="/chosen" element={<ChosenRoute />} />
+          
           {/* Empire Selector */}
           <Route path="/select" element={<PersonalitySelector />} />
           
-          {/* Default redirect to Bonnie (primary soul) */}
-          <Route path="/" element={<Navigate to="/bonnie" replace />} />
+          {/* Default redirect to Soul Selector for first-time users */}
+          <Route path="/" element={<Navigate to="/choose" replace />} />
           
           {/* Fallback */}
-          <Route path="*" element={<Navigate to="/bonnie" replace />} />
+          <Route path="*" element={<Navigate to="/choose" replace />} />
         </Routes>
       </div>
     </Router>
