@@ -1,27 +1,84 @@
 {
-  "name": "bonnie-ai-god-mode-plus",
+  "name": "galatea-empire",
   "version": "1.0.0",
+  "description": "🔱 Galatea Empire - AI Girlfriend Social Seduction Platform",
   "type": "module",
-  "description": "Bonnie AI Backend",
-  "main": "index.js",
   "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run frontend\"",
+    "server": "nodemon index.js",
+    "frontend": "vite --host 0.0.0.0 --port 3000",
+    "build": "vite build",
+    "preview": "vite preview",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "install-setup": "node scripts/install.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.52.0",
-    "axios": "^1.10.0",
-    "bcrypt": "^6.0.0",
-    "compression": "^1.8.1",
+    "express": "^4.18.2",
+    "socket.io": "^4.7.4",
     "cors": "^2.8.5",
-    "dotenv": "^16.6.1",
-    "express": "^4.19.2",
-    "express-rate-limit": "^6.7.0",
     "helmet": "^7.1.0",
+    "compression": "^1.7.4",
+    "express-rate-limit": "^7.1.5",
+    "dotenv": "^16.3.1",
+    "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
-    "node-cache": "^5.1.2",
-    "socket.io": "^4.7.5",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.33.0",
+    "node-cron": "^3.0.3",
+    "axios": "^1.6.2",
+    "openai": "^4.20.1",
+    "@supabase/supabase-js": "^2.38.4",
+    "stripe": "^14.7.0",
+    "twitter-api-v2": "^1.15.1",
+    "ua-parser-js": "^1.0.37",
+    "geoip-lite": "^1.4.10",
     "uuid": "^9.0.1",
-    "winston": "^3.15.0"
-  }
+    "validator": "^13.11.0",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.0",
+    "vite": "^5.0.8",
+    "nodemon": "^3.0.2",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.1"
+  },
+  "frontend": {
+    "dependencies": {
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "react-router-dom": "^6.20.1",
+      "socket.io-client": "^4.7.4",
+      "framer-motion": "^10.16.16",
+      "lucide-react": "^0.298.0",
+      "recharts": "^2.8.0",
+      "react-hot-toast": "^2.4.1",
+      "react-helmet-async": "^2.0.4",
+      "react-intersection-observer": "^9.5.3",
+      "react-spring": "^9.7.3",
+      "react-use-gesture": "^9.1.3",
+      "date-fns": "^2.30.0",
+      "zustand": "^4.4.7",
+      "react-markdown": "^9.0.1",
+      "react-syntax-highlighter": "^15.5.0",
+      "emoji-picker-react": "^4.6.0",
+      "react-confetti": "^6.1.0",
+      "react-webcam": "^7.2.0"
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "ai-girlfriend",
+    "chatbot",
+    "express",
+    "react",
+    "websocket",
+    "stripe",
+    "supabase"
+  ],
+  "author": "Galatea Empire",
+  "license": "MIT"
 }

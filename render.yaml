@@ -1,0 +1,141 @@
+services:
+  # 🔱 GALATEA EMPIRE - MAIN WEB SERVICE
+  - type: web
+    name: galatea-empire
+    env: node
+    region: oregon
+    plan: starter
+    buildCommand: |
+      echo "🔱 Building Galatea Empire..."
+      npm ci
+      echo "📱 Building frontend..."
+      npm run build
+      echo "🏛️ Empire build complete!"
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      # Server Configuration
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8080
+      
+      # Database (Supabase) - Add in Render Dashboard
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false  
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      
+      # AI Services - Add in Render Dashboard
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      
+      # Payment Processing - Add in Render Dashboard
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      
+      # Security - Add in Render Dashboard
+      - key: JWT_SECRET
+        sync: false
+      - key: ENCRYPTION_KEY
+        sync: false
+      
+      # Feature Flags
+      - key: TWITTER_AUTO_POST
+        value: true
+      - key: WATCHTOWER_ENABLED
+        value: true
+      - key: DEBUG_LOGGING
+        value: false
+      - key: LOG_LEVEL
+        value: info
+      
+      # Social Media - Add Twitter tokens in Dashboard
+      - key: BONNIE_TWITTER_BEARER_TOKEN
+        sync: false
+      - key: NOVA_TWITTER_BEARER_TOKEN
+        sync: false
+      - key: GALATEA_TWITTER_BEARER_TOKEN
+        sync: false
+      
+      # Telegram - Add bot tokens in Dashboard
+      - key: BONNIE_TELEGRAM_TOKEN
+        sync: false
+      - key: NOVA_TELEGRAM_TOKEN
+        sync: false
+      - key: GALATEA_TELEGRAM_TOKEN
+        sync: false
+      
+      # Analytics
+      - key: GA_MEASUREMENT_ID
+        sync: false
+      - key: SENTRY_DSN
+        sync: false
+
+  # 🐍 TELEGRAM BOTS SERVICE (Optional separate service)
+  - type: background
+    name: galatea-telegram-bots
+    env: python
+    region: oregon
+    plan: starter
+    buildCommand: |
+      echo "🤖 Setting up Telegram bots..."
+      cd telegram
+      pip install -r requirements.txt
+      echo "📲 Bots ready for deployment!"
+    startCommand: cd telegram && python run_all_bots.py
+    envVars:
+      # Database connection
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      
+      # Bot tokens
+      - key: BONNIE_TELEGRAM_TOKEN
+        sync: false
+      - key: NOVA_TELEGRAM_TOKEN
+        sync: false
+      - key: GALATEA_TELEGRAM_TOKEN
+        sync: false
+      
+      # Webhook configuration
+      - key: TELEGRAM_WEBHOOK_URL
+        value: https://galatea-empire.onrender.com/api/telegram/webhook
+      - key: TELEGRAM_WEBHOOK_SECRET
+        sync: false
+
+# 📊 Additional Render Configuration
+databases:
+  # If using Render PostgreSQL instead of Supabase
+  # - name: galatea-db
+  #   plan: starter
+  #   databaseName: galatea_empire
+  #   user: galatea_user
+
+# 🔧 Build Configuration Notes:
+# 1. Set all "sync: false" environment variables manually in Render Dashboard
+# 2. Use strong, unique secrets for JWT_SECRET and ENCRYPTION_KEY
+# 3. Configure custom domain in Render if desired
+# 4. Enable auto-deploy from your main Git branch
+# 5. Consider upgrading to Standard plan for production traffic
+
+# 🚀 Deployment Steps:
+# 1. Push code to GitHub repository
+# 2. Connect repository to Render
+# 3. Use this render.yaml file for configuration
+# 4. Set environment variables in Render Dashboard
+# 5. Deploy and monitor via Render Dashboard
+
+# 💡 Production Optimization:
+# - Upgrade to Standard or Pro plan for better performance
+# - Use CDN for static assets
+# - Configure Redis for session storage if needed
+# - Set up monitoring and alerts
+# - Configure backup strategy for database
