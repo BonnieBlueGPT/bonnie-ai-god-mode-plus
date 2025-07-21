@@ -2,11 +2,14 @@
   "name": "bonnie-ai-god-mode-plus",
   "version": "1.0.0",
   "type": "module",
-  "description": "Bonnie AI Backend",
+  "description": "Galatea Empire - Divine Fractal Architecture",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js --watch . --ignore node_modules --ignore logs",
+    "dev:hot": "nodemon --exec node --experimental-loader ./loader.js index.js",
+    "test": "echo \"No tests yet\" && exit 0",
+    "lint": "echo \"No linting configured\" && exit 0"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.52.0",
@@ -21,7 +24,27 @@
     "jsonwebtoken": "^9.0.2",
     "node-cache": "^5.1.2",
     "socket.io": "^4.7.5",
+    "stripe": "^14.0.0",
     "uuid": "^9.0.1",
     "winston": "^3.15.0"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "nodemonConfig": {
+    "ignore": ["logs/*", "node_modules/*"],
+    "delay": "1000",
+    "env": {
+      "NODE_ENV": "development"
+    }
+  },
+  "keywords": [
+    "ai",
+    "chatbot",
+    "fractal-architecture",
+    "galatea-empire",
+    "modular"
+  ],
+  "author": "Galatea Empire",
+  "license": "MIT"
 }
