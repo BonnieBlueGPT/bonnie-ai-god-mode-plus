@@ -40,6 +40,7 @@ import galleryRoutes from './routes/galleryRoutes.js';
 import twitterRoutes from './routes/twitterRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import contentRoutes from './routes/contentRoutes.js';
 
 // 🏗️ Initialize Environment
 dotenv.config();
@@ -144,6 +145,7 @@ app.use('/api/gallery', galleryRoutes);
 app.use('/api/twitter', twitterRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/content', contentRoutes);
 
 // 🏠 Enhanced Health Check with Pillar Status
 app.get('/api/empire-status', (req, res) => {
